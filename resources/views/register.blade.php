@@ -1,82 +1,124 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel 11 Multi Auth</title>
-        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    </head>
-    <body class="bg-light">
-        <section class=" p-3 p-md-4 p-xl-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
-                        <div class="card border border-light-subtle rounded-4">
-                            <div class="card-body p-3 p-md-4 p-xl-5">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-5">
-                                            <h4 class="text-center">Register Here</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <form action=" {{route('account.processRegister')}} " method="post">
-                                @csrf    
-                                <div class="row gy-3 overflow-hidden">
-                                        <div class="col-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" value="{{old('name')}}" class="form-control  @error('name') is-invalid @enderror" name="name" id="name" placeholder="Name" >
-                                                <label for="email" class="form-label">Name</label>
-                                                @error('Name')
-                                                <p class="invalid-feedback">{{$message}}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" value="{{old('email')}}" class="form-control  @error('email') is-invalid @enderror" name="email" id="email" placeholder="name@example.com" >
-                                                <label for="email" class="form-label">Email</label>
-                                                @error('email')
-                                                <p class="invalid-feedback">{{$message}}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" value="" placeholder="Password" >
-                                                <label for="password" class="form-label">Password</label>
-                                                @error('password')
-                                                <p class="invalid-feedback">{{$message}}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" value="" placeholder="Confirm Password" >
-                                                <label for="password" class="form-label">Confirm Password</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="d-grid">
-                                                <button class="btn bsb-btn-xl btn-primary py-3" type="submit">Register Now</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <hr class="mt-5 mb-4 border-secondary-subtle">
-                                        <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-center">
-                                            <a href="{{route('account.login')}}" class="link-secondary text-decoration-none">Click here to login</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Laravel 11 Multi Auth</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../images/register.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    background: rgba(255, 255, 255, 0.5); 
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(51, 51, 51, 0.4); 
+    backdrop-filter: blur(10px); 
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 0.5px solid rgba(88, 86, 86, 0.4); 
+}
+
+.form-container h4 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: black;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    border-radius: 5px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2); 
+    color: black;
+}
+
+.form-container input:focus {
+    border-color: rgba(255, 255, 255, 0.5); 
+    outline: none;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 15px;
+    background-color: rgba(231, 158, 98, 0.8); 
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-container button:hover {
+    background-color: rgba(230, 74, 25, 0.8); 
+}
+
+.form-container a {
+    display: block;
+    margin-top: 20px;
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h4>Sign Up</h4>
+        <form action="{{ route('account.processRegister') }}" method="post">
+            @csrf    
+            <input type="text" name="name" id="name" placeholder="Name" value="{{ old('name') }}">
+            @error('name')
+            <p class="error">{{ $message }}</p>
+            @enderror
+
+            <input type="text" name="email" id="email" placeholder="Email" value="{{ old('email') }}">
+            @error('email')
+            <p class="error">{{ $message }}</p>
+            @enderror
+
+            <input type="number" name="phone" id="phone" placeholder="Phone" value="{{ old('phone') }}">
+            @error('phone')
+            <p class="error">{{ $message }}</p>
+            @enderror
+
+            <input type="password" name="password" id="password" placeholder="Password">
+            @error('password')
+            <p class="error">{{ $message }}</p>
+            @enderror
+
+            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password">
+            @error('password_confirmation')
+            <p class="error">{{ $message }}</p>
+            @enderror
+
+            <button type="submit">Sign</button>
+        </form>
+        <a href="{{ route('account.login') }}">Already have an account? Log in here</a>
+    </div>
+</body>
 </html>

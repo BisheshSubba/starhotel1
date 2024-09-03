@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+@include ('partials.head')
 <body>
-<divc class="">
-<p>Name: {{Auth::user()->name}}</p>
-<p>Email: {{Auth::user()->email}}</p>
-<p>Role: {{Auth::user()->role}}</p>
+@include ('partials.header')
+<div class="profile">
+<p><b>Name:</b> {{Auth::user()->name}}</p>
+<p><b>Email:</b> {{Auth::user()->email}}</p>
+<p><b>Role: </b>{{Auth::user()->role}}</p>
+<p><b>Contact: </b>{{Auth::user()->phone}}</p>
 </div>
-
+@include('partials.footer')
 </body>
 </html>
